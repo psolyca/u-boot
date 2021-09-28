@@ -319,6 +319,11 @@ static int part_test_efi(struct blk_desc *dev_desc)
 {
 	ALLOC_CACHE_ALIGN_BUFFER_PAD(legacy_mbr, legacymbr, 1, dev_desc->blksz);
 
+#ifdef SKIP_EFI_TEST
+	if (dev_desc->if_type == IF_TYPE_MMC && dev_desc->devnum == 0)
+		return 0;
+#endif
+
 	/* Read legacy MBR from block 0 and validate it */
 	if ((blk_dread(dev_desc, 0, 1, (ulong *)legacymbr) != 1)
 		|| (is_pmbr_valid(legacymbr) != 1)) {
