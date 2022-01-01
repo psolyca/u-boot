@@ -198,6 +198,7 @@ dtb-$(CONFIG_ARCH_MESON) += \
 	meson-sm1-odroid-hc4.dtb \
 	meson-sm1-sei610.dtb
 dtb-$(CONFIG_ARCH_TEGRA) += tegra20-asus-tf101.dtb \
+	tegra20-asus-tf101g.dtb \
 	tegra20-harmony.dtb \
 	tegra20-medcom-wide.dtb \
 	tegra20-paz00.dtb \
