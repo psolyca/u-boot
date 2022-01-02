@@ -23,9 +23,9 @@
 	"script_addr_r=0x87000000\0" \
 	"ebt_offset_r=0x1C00\0" \
 	"ebt_size=0x4000\0" \
-	"sos_offset_r=0x5C00\0" \
+	"sos_offset_r=0x3C00\0" \
 	"sos_size=0x4000\0" \
-	"lnx_offset_r=0x9C00\0" \
+	"lnx_offset_r=0x7C00\0" \
 	"lnx_size=0x4000\0" \
 	"kernel_file=vmlinuz\0" \
 	"dtb_file="CONFIG_DEFAULT_DEVICE_TREE".dtb\0" \
