@@ -55,12 +55,18 @@
 			"run bootrdkernel;" \
 		"else echo Booting Kernel;" \
 			"run bootkernel; fi\0" \
-	"boot_android=echo Reading LNX partition;" \
+	"boot_lnx=echo Reading LNX partition;" \
 		"mmc dev;" \
 		"if mmc read ${kernel_addr_r} ${lnx_offset_r} ${lnx_size};" \
 		"then echo Booting Kernel;" \
 			"bootm ${kernel_addr_r};" \
 		"else echo Reading LNX failed; fi\0" \
+	"boot_sos=echo Reading SOS partition;" \
+		"mmc dev;" \
+		"if mmc read ${kernel_addr_r} ${sos_offset_r} ${sos_size};" \
+		"then echo Booting Kernel;" \
+			"bootm ${kernel_addr_r};" \
+		"else echo Reading SOS failed; fi\0" \
 	"flash_uboot=echo Reading U-Boot binary;" \
 		"if load mmc 1:1 ${kernel_addr_r} ${bootloader_file};" \
 		"then echo Writing U-Boot into EBT;" \
@@ -68,11 +74,12 @@
 			"mmc write ${kernel_addr_r} ${ebt_offset_r} ${ebt_size};" \
 		"else echo Reading U-Boot failed; fi\0" \
 	"bootmenu_0=boot with BCT=run boot_bct\0" \
-	"bootmenu_1=boot Android=run boot_android\0" \
-	"bootmenu_2=fastboot=fastboot usb 0\0" \
-	"bootmenu_3=reboot=reset\0" \
-	"bootmenu_4=power off=poweroff\0" \
-	"bootmenu_5=update bootloader=run flash_uboot\0" \
+	"bootmenu_1=boot LNX=run boot_lnx\0" \
+	"bootmenu_2=boot SOS=run boot_sos\0" \
+	"bootmenu_3=fastboot=fastboot usb 0\0" \
+	"bootmenu_4=reboot=reset\0" \
+	"bootmenu_5=power off=poweroff\0" \
+	"bootmenu_6=update bootloader=run flash_uboot\0" \
 	"bootmenu_delay=-1\0"
 
 #undef CONFIG_BOOTCOMMAND
