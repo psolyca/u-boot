@@ -36,7 +36,7 @@
 		"if load mmc 1:1 ${kernel_addr_r} ${kernel_file};" \
 		"then echo Loading DTB;" \
 			"load mmc 1:1 ${dtb_addr_r} ${dtb_file};" \
-			"setenv bootargs console=ttyS0,115200n8 root=/dev/mmcblk1p2 rw gpt gpt_sector=30785535;" \
+			"setenv bootargs console=ttyS0,115200n8 root=/dev/mmcblk1p2 rw gpt;" \
 			"echo Loading Initramfs;" \
 			"if load mmc 1:1 ${ramdisk_addr_r} ${ramdisk_file};" \
 			"then echo Booting Kernel;" \
@@ -49,7 +49,7 @@
 			"load mmc 0:1 ${kernel_addr_r} ${kernel_file};" \
 			"echo Loading DTB;" \
 			"load mmc 0:1 ${dtb_addr_r} ${dtb_file};" \
-			"setenv bootargs console=ttyS0,115200n8 root=/dev/mmcblk0p8 rw gpt gpt_sector=30785535;" \
+			"setenv bootargs console=ttyS0,115200n8 root=/dev/mmcblk0p8 rw gpt;" \
 			"echo Loading Initramfs;" \
 			"if load mmc 0:1 ${ramdisk_addr_r} ${ramdisk_file};" \
 			"then echo Booting Kernel;" \
