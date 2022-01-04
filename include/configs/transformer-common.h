@@ -93,6 +93,19 @@
 	"ramdisk_file=uInitrd\0" \
 	"bootloader_file=u-boot-dtb-tegra.bin\0"
 
+#define TRANSFORMER_LOAD_KERNEL \
+	"echo Loading Kernel;" \
+	"if load mmc ${bootdev}:1 ${kernel_addr_r} ${kernel_file};" \
+	"then echo Loading DTB;" \
+		"load mmc ${bootdev}:1 ${fdt_addr_r} ${fdtfile};" \
+		"setenv bootargs " TRANSFORMER_BOOTARGS ";" \
+		"echo Loading Initramfs;" \
+		"if load mmc ${bootdev}:1 ${ramdisk_addr_r} ${ramdisk_file};" \
+		"then echo Booting Kernel;" \
+			"run bootrdkernel;" \
+		"else echo Booting Kernel;" \
+			"run bootkernel; fi;"
+
 /* Skip EFI check for eMMC */
 #define SKIP_EFI_TEST
 

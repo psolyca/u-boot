@@ -14,8 +14,22 @@
 /* VDD core PMIC */
 #define CONFIG_TEGRA_VDD_CORE_TPS62361B_SET3
 
+#ifdef TRANSFORMER_SPI_BOOT
+#define TRANSFORMER_VOLDOWN_ACTION \
+	"then echo Starting Fastboot protocol ...;" \
+		"fastboot usb 0;"
+#define TRANSFORMER_BOOTARGS \
+	"console=ttyS0,115200n8 root=/dev/mmcblk0p${rootpart} rw gpt"
+#else
+//#define TRANSFORMER_VOLDOWN_ACTION "then bootmenu;"
+#define TRANSFORMER_VOLDOWN_ACTION \
+	"then echo Starting Fastboot protocol ...;" \
+		"fastboot usb 0;"
+#define TRANSFORMER_BOOTARGS \
+	"console=ttyS0,115200n8 root=/dev/mmcblk0p${rootpart} rw gpt"
+#endif
+
 #define BOARD_EXTRA_ENV_SETTINGS \
-	MEM_LAYOUT_ENV_SETTINGS \
 	TRANSFORMER_T30_EMMC_LAYOUT \
 	TRANSFORMER_DEFAULT_FILESET \
 	TRANSFORMER_BOOTZ \
@@ -24,32 +38,16 @@
 #undef CONFIG_BOOTCOMMAND
 #define CONFIG_BOOTCOMMAND \
 	"if button VolDown;" \
-	"then bootmenu;" \
+	TRANSFORMER_VOLDOWN_ACTION \
 	"else echo Loading from uSD...;" \
-		"echo Loading Kernel;" \
-		"if load mmc 1:1 ${kernel_addr_r} ${kernel_file};" \
-		"then echo Loading DTB;" \
-			"load mmc 1:1 ${fdt_addr_r} ${fdtfile};" \
-			"setenv bootargs console=ttyS0,115200n8 root=/dev/mmcblk1p2 rw gpt;" \
-			"echo Loading Initramfs;" \
-			"if load mmc 1:1 ${ramdisk_addr_r} ${ramdisk_file};" \
-			"then echo Booting Kernel;" \
-				"run bootrdkernel;" \
-			"else echo Booting Kernel;" \
-				"run bootkernel; fi;" \
+		"setenv bootdev 1;" \
+		"setenv rootpart 2;" \
+		TRANSFORMER_LOAD_KERNEL \
 		"else echo Loading from uSD failed!;" \
 			"echo Loading from eMMC...;" \
-			"echo Loading Kernel;" \
-			"if load mmc 0:1 ${kernel_addr_r} ${kernel_file};" \
-			"then echo Loading DTB;" \
-				"load mmc 0:1 ${fdt_addr_r} ${fdtfile};" \
-				"setenv bootargs console=ttyS0,115200n8 root=/dev/mmcblk0p8 rw gpt;" \
-				"echo Loading Initramfs;" \
-				"if load mmc 0:1 ${ramdisk_addr_r} ${ramdisk_file};" \
-				"then echo Booting Kernel;" \
-					"run bootrdkernel;" \
-				"else echo Booting Kernel;" \
-					"run bootkernel; fi;" \
+			"setenv bootdev 0;" \
+			"setenv rootpart 8;" \
+			TRANSFORMER_LOAD_KERNEL \
 			"else echo Loading Kernel FAILED! Turning power off;" \
 				"poweroff; fi;" \
 		"fi;" \

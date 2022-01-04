@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: 2.0-or-later */
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /*
  *  (C) Copyright 2010,2011
  *  NVIDIA Corporation <www.nvidia.com>
@@ -12,41 +12,29 @@
 #include "tegra20-common.h"
 #include "transformer-common.h"
 
+#define TRANSFORMER_BOOTARGS \
+	"console=ttyS0,115200n8 root=/dev/mmcblk0p${rootpart} rw gpt"
+
 #define BOARD_EXTRA_ENV_SETTINGS \
-	MEM_LAYOUT_ENV_SETTINGS \
 	TRANSFORMER_T20_EMMC_LAYOUT \
 	TRANSFORMER_DEFAULT_FILESET \
-	TRANSFORMER_BOOTZ
+	TRANSFORMER_BOOTZ \
+	TRANSFORMER_FASTBOOT_ALIAS
 
 #undef CONFIG_BOOTCOMMAND
 #define CONFIG_BOOTCOMMAND \
 	"if button VolDown;" \
-	"then fastboot usb 0;" \
+	"then echo Starting Fastboot protocol ...;" \
+		"fastboot usb 0;" \
 	"else echo Loading from uSD...;" \
-		"echo Loading Kernel;" \
-		"if load mmc 1:1 ${kernel_addr_r} ${kernel_file};" \
-		"then echo Loading DTB;" \
-			"load mmc 1:1 ${fdt_addr_r} ${fdtfile};" \
-			"setenv bootargs console=ttyS0,115200n8 root=/dev/mmcblk1p2 rw gpt;" \
-			"echo Loading Initramfs;" \
-			"if load mmc 1:1 ${ramdisk_addr_r} ${ramdisk_file};" \
-			"then echo Booting Kernel;" \
-				"run bootrdkernel;" \
-			"else echo Booting Kernel;" \
-				"run bootkernel; fi;" \
+		"setenv bootdev 1;" \
+		"setenv rootpart 2;" \
+		TRANSFORMER_LOAD_KERNEL \
 		"else echo Loading from uSD failed!;" \
 			"echo Loading from eMMC...;" \
-			"echo Loading Kernel;" \
-			"load mmc 0:1 ${kernel_addr_r} ${kernel_file};" \
-			"echo Loading DTB;" \
-			"load mmc 0:1 ${fdt_addr_r} ${fdtfile};" \
-			"setenv bootargs console=ttyS0,115200n8 root=/dev/mmcblk0p8 rw gpt;" \
-			"echo Loading Initramfs;" \
-			"if load mmc 0:1 ${ramdisk_addr_r} ${ramdisk_file};" \
-			"then echo Booting Kernel;" \
-				"run bootrdkernel;" \
-			"else echo Booting Kernel;" \
-				"run bootkernel; fi;" \
+			"setenv bootdev 0;" \
+			"setenv rootpart 8;" \
+			TRANSFORMER_LOAD_KERNEL \
 		"fi;" \
 	"fi;"
 
@@ -57,6 +45,5 @@
 #define CONFIG_MACH_TYPE		MACH_TYPE_VENTANA
 
 #include "tegra-common-post.h"
-#include "tegra-common-usb-gadget.h"
 
 #endif /* __CONFIG_H */
