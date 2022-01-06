@@ -12,9 +12,6 @@
 #include "tegra20-common.h"
 #include "transformer-common.h"
 
-#define TRANSFORMER_BOOTARGS \
-	"console=ttyS0,115200n8 root=/dev/mmcblk0p${rootpart} rw gpt"
-
 #define BOARD_EXTRA_ENV_SETTINGS \
 	TRANSFORMER_T20_EMMC_LAYOUT \
 	TRANSFORMER_DEFAULT_FILESET \

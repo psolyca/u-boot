@@ -18,15 +18,11 @@
 #define TRANSFORMER_VOLDOWN_ACTION \
 	"then echo Starting Fastboot protocol ...;" \
 		"fastboot usb 0;"
-#define TRANSFORMER_BOOTARGS \
-	"console=ttyS0,115200n8 root=/dev/mmcblk0p${rootpart} rw gpt"
 #else
 //#define TRANSFORMER_VOLDOWN_ACTION "then bootmenu;"
 #define TRANSFORMER_VOLDOWN_ACTION \
 	"then echo Starting Fastboot protocol ...;" \
 		"fastboot usb 0;"
-#define TRANSFORMER_BOOTARGS \
-	"console=ttyS0,115200n8 root=/dev/mmcblk0p${rootpart} rw gpt"
 #endif
 
 #define BOARD_EXTRA_ENV_SETTINGS \
