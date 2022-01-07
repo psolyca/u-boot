@@ -34,7 +34,7 @@
 #undef CONFIG_BOOTCOMMAND
 #define CONFIG_BOOTCOMMAND \
 	"if button VolDown;" \
-	TRANSFORMER_VOLDOWN_ACTION \
+	"then run boot_sos;" \
 	"else echo Loading from uSD...;" \
 		"setenv bootdev 1;" \
 		"setenv rootpart 2;" \
