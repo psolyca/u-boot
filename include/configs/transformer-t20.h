@@ -32,6 +32,7 @@
 			"setenv bootdev 0;" \
 			"setenv rootpart 8;" \
 			TRANSFORMER_LOAD_KERNEL \
+			"fi;" \
 		"fi;" \
 	"fi;"
 
