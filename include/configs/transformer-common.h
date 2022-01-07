@@ -20,9 +20,9 @@
 #define TRANSFORMER_T30_EMMC_LAYOUT \
 	"ebt_offset_r=0x1C00\0" \
 	"ebt_size=0x4000\0" \
-	"sos_offset_r=0x3C00\0" \
+	"sos_offset_r=0x5C00\0" \
 	"sos_size=0x4000\0" \
-	"lnx_offset_r=0x7C00\0" \
+	"lnx_offset_r=0x9C00\0" \
 	"lnx_size=0x4000\0"
 
 #define TRANSFORMER_BOOTZ \
@@ -47,7 +47,7 @@
 
 #define TRANSFORMER_BOOT_SOS \
 	"boot_sos=echo Reading SOS partition;" \
-		"mmc dev;" \
+		"mmc dev 0 1;" \
 		"if mmc read ${kernel_addr_r} ${sos_offset_r} ${sos_size};" \
 		"then echo Booting Kernel;" \
 			"bootm ${kernel_addr_r};" \
@@ -55,7 +55,7 @@
 
 #define TRANSFORMER_BOOT_LNX \
 	"boot_lnx=echo Reading LNX partition;" \
-		"mmc dev;" \
+		"mmc dev 0 1;" \
 		"if mmc read ${kernel_addr_r} ${lnx_offset_r} ${lnx_size};" \
 		"then echo Booting Kernel;" \
 			"bootm ${kernel_addr_r};" \
@@ -65,7 +65,7 @@
 	"flash_uboot=echo Reading U-Boot binary;" \
 		"if load mmc 1:1 ${kernel_addr_r} ${bootloader_file};" \
 		"then echo Writing U-Boot into EBT;" \
-			"mmc dev;" \
+			"mmc dev 0 1;" \
 			"mmc write ${kernel_addr_r} ${ebt_offset_r} ${ebt_size};" \
 		"else echo Reading U-Boot failed; fi\0"
 
