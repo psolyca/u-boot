@@ -9,7 +9,13 @@
 /* High-level configuration options */
 #define CONFIG_TEGRA_BOARD_STRING	"ASUS Transformer"
 
-#define TRANSFORMER_T20_EMMC_LAYOUT
+#define TRANSFORMER_T20_EMMC_LAYOUT \
+	"ebt_offset_r=0x1C00\0" \
+	"ebt_size=0x2000\0" \
+	"sos_offset_r=0x3C00\0" \
+	"sos_size=0x2800\0" \
+	"lnx_offset_r=0x6400\0" \
+	"lnx_size=0x4000\0"
 
 #define TRANSFORMER_T30_EMMC_LAYOUT \
 	"ebt_offset_r=0x1C00\0" \
