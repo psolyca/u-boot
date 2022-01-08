@@ -9,20 +9,25 @@
 /* High-level configuration options */
 #define CONFIG_TEGRA_BOARD_STRING	"ASUS Transformer"
 
+/*
+ * SOS and LNX offset is relative to
+ * mmcblk0 start on both t20 and t30
+ */
+
 #define TRANSFORMER_T20_EMMC_LAYOUT \
 	"ebt_offset_r=0x1C00\0" \
 	"ebt_size=0x2000\0" \
-	"sos_offset_r=0x3C00\0" \
+	"sos_offset_r=0x1C00\0" \
 	"sos_size=0x2800\0" \
-	"lnx_offset_r=0x6400\0" \
+	"lnx_offset_r=0x4400\0" \
 	"lnx_size=0x4000\0"
 
 #define TRANSFORMER_T30_EMMC_LAYOUT \
 	"ebt_offset_r=0x1C00\0" \
 	"ebt_size=0x4000\0" \
-	"sos_offset_r=0x5C00\0" \
+	"sos_offset_r=0x3C00\0" \
 	"sos_size=0x4000\0" \
-	"lnx_offset_r=0x9C00\0" \
+	"lnx_offset_r=0x7C00\0" \
 	"lnx_size=0x4000\0"
 
 #define TRANSFORMER_BOOTZ \
@@ -47,7 +52,7 @@
 
 #define TRANSFORMER_BOOT_SOS \
 	"boot_sos=echo Reading SOS partition;" \
-		"mmc dev 0 1;" \
+		"mmc dev;" \
 		"if mmc read ${kernel_addr_r} ${sos_offset_r} ${sos_size};" \
 		"then echo Booting Kernel;" \
 			"bootm ${kernel_addr_r};" \
@@ -55,7 +60,7 @@
 
 #define TRANSFORMER_BOOT_LNX \
 	"boot_lnx=echo Reading LNX partition;" \
-		"mmc dev 0 1;" \
+		"mmc dev;" \
 		"if mmc read ${kernel_addr_r} ${lnx_offset_r} ${lnx_size};" \
 		"then echo Booting Kernel;" \
 			"bootm ${kernel_addr_r};" \
